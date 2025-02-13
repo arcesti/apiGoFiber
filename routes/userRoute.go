@@ -10,4 +10,6 @@ func SetupUserRoutes(app *fiber.App) {
 
 	userRoutes.Post("/", controllers.AddUser);
 	userRoutes.Get("/", controllers.GetUsers);
+	userRoutes.Put("/:cpf", controllers.AlterUser);
+	userRoutes.Delete("/:cpf", controllers.DeleteUser);
 }

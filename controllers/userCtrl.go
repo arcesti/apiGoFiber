@@ -29,3 +29,27 @@ func GetUsers(c *fiber.Ctx) error {
 	}
 	return c.Status(200).JSON(fiber.Map{"usuarios": users});
 }
+
+func AlterUser(c *fiber.Ctx) error {
+	var user models.User;
+	cpf := c.Params("cpf");
+	if err := c.BodyParser(&user); err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "Dados inválidos!"});
+	}
+
+	user.Cpf = cpf;
+
+	if err := repository.AlterUser(user); err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": "Erro ao alterar usuario!"});
+	}
+	return c.Status(200).JSON(fiber.Map{"sucesso": "usuario alterado com sucesso!"});
+}
+
+func DeleteUser(c *fiber.Ctx) error {
+	cpf := c.Params("cpf");
+	
+	if err := repository.DeleteUser(cpf); err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": "Erro ao excluir usuario"});
+	}
+	return c.Status(200).JSON(fiber.Map{"sucesso": "usuario excluido com sucesso!"});
+}
